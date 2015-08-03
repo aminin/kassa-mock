@@ -5,16 +5,16 @@
 ## Возможности
 
 * Принимает данные из _платёжной формы_
-* Позволяет имитировать запросы `checkOrder`, `checkOrder`, `checkOrder`
-* Работает по `HTTP` и `HTTPS`
+* Позволяет имитировать запросы `checkOrder`, `paymentAviso`
+* Работает по `HTTP`
 * Подписывает данные методом `MD5`
 * Позволяеет вручную модифицировать данные перед отправкой запросов
 
 ## Установка
 
 ```bash
-git clone git@github.com:aminin/yandex-kassa-mock.git
-cd yandex-kassa-mock
+git clone git@github.com:aminin/kassa-mock.git
+cd kassa-mock
 composer install
 bower install
 ```
