@@ -1,0 +1,107 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+<div class="col col-xs-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Информация о транзакции
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <tr><th>Сумма:</th><td>{{ request.sum }}</td></tr>
+                <tr><th>Метод платежа:</th><td>{{ request.paymentType }}</td></tr>
+            </table>
+            <div class="form-group">
+                <label>Данные</label>
+                {{ dump(app['request'].request) }}
+                <textarea class="form-control" rows="10">{{ request|json_encode(constant('JSON_PRETTY_PRINT')) }}</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col col-xs-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Отправка checkOrder
+        </div>
+        <div class="panel-body">
+            <form id="form-check-order">
+                <div class="form-group">
+                    <label for="form-check-order-data">Данные</label>
+                    <textarea class="form-control" name="data" id="form-check-order-data" rows="10">{{ checkData|json_encode(constant('JSON_PRETTY_PRINT')) }}</textarea>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="update_md5" checked="checked"> Обновить подпись md5
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary">Отправить checkOrder</button>
+                <div class="form-group">
+                    <label for="form-check-order-response">Ответ</label>
+                    <textarea id="form-check-order-response" class="form-control" rows="4"></textarea>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Отправка paymentAviso
+        </div>
+        <div class="panel-body">
+            <form id="form-payment-aviso">
+                <div class="form-group">
+                    <label for="form-payment-aviso-data">Данные</label>
+                    <textarea class="form-control" name="data" id="form-check-order-data" rows="10">{{ avisoData|json_encode(constant('JSON_PRETTY_PRINT')) }}</textarea>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="update_md5" checked="checked"> Обновить подпись md5
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-warning">Отправить checkOrder</button>
+                <div class="form-group">
+                    <label for="form-payment-aviso-response">Ответ</label>
+                    <textarea id="form-payment-aviso-response" class="form-control" rows="4"></textarea>
+                </div>
+            </form>
+            <a href="{{ app['kassa.config'].successUrl }}" class="btn btn-success">Перейти на successUrl</a>
+            <a href="{{ app['kassa.config'].failUrl }}" class="btn btn-danger">Перейти на failUrl</a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    {% verbatim %}
+    (function (method) {
+        function defer(method) {
+            if (window.jQuery) {
+                method();
+            } else {
+                setTimeout(function () {
+                    defer(method)
+                }, 50);
+            }
+        }
+        defer(method);
+    })(function () {
+        var highlight = function (t, response) {
+            t.val(response);
+            t.removeClass('alert-danger');
+            t.removeClass('alert-success');
+            t.addClass(response.match(/code="0"/) ? 'alert-success' : 'alert-danger');
+        };
+        $('#form-check-order').on('submit', function (e) {
+            $.post('/notify/checkOrderUrl', $('#form-check-order').serialize(), function (response) {
+                highlight($('#form-check-order-response'), response);
+            });
+            return false;
+        });
+        $('#form-payment-aviso').on('submit', function (e) {
+            $.post('/notify/paymentAvisoUrl', $('#form-payment-aviso').serialize(), function (response) {
+                highlight($('#form-payment-aviso-response'), response);
+            });
+            return false;
+        });
+    });
+    {% endverbatim %}
+</script>
+{% endblock %}

@@ -1,0 +1,11 @@
+<?php
+
+return [
+    'shopId'          => '',
+    'scid'            => '',
+    'shopPassword'    => '',
+    'paymentAvisoUrl' => '',
+    'checkOrderUrl'   => '',
+    'successUrl'      => '',
+    'failUrl'         => '',
+];

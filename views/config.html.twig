@@ -1,0 +1,28 @@
+{% extends 'layout.html.twig' %}
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong>Настройки</strong>
+        </div>
+        <div class="panel-body">
+            {% if not settings %}
+                <div class="alert alert-danger" role="alert">
+                    <i class="glyphicon glyphicon-exclamation-sign"></i>
+                    создайте <i>config.php</i>
+                </div>
+            {% else %}
+                <div class="alert alert-info" role="alert">
+                    <i class="glyphicon glyphicon-info-sign"></i>
+                    см. <i>config.php</i>
+                </div>
+            {% endif %}
+            <div style="width: 50%;">
+                <table class="table">
+                    {%- for key, value in settings -%}
+                        <tr><th>{{ key }}</th><td>{{ value }}</td></tr>
+                    {%- endfor -%}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'layout.html.twig' %}
+{% block content %}
+    {% if not app['kassa.config'] %}
+        <div class="alert alert-danger" role="alert">
+            <i class="glyphicon glyphicon-exclamation-sign"></i>
+            создайте <i>config.php</i>
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            <i class="glyphicon glyphicon-info-sign"></i>
+            Данные платёжной формы отправляйте на <i>{{ app.request.schemeAndHttpHost }}/embed/shop.xml</i>
+        </div>
+        <a href="{{ app['kassa.config'].successUrl }}" class="btn btn-success">Перейти в магазин</a>
+    {% endif %}
+{% endblock %}
