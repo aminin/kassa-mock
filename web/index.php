@@ -36,6 +36,7 @@ $makeCheckData = function ($requestData) use ($app) {
         //'MyField'                 => 'Добавленное Контрагентом поле',
     ];
     isset($requestData['shopArticleId']) && $params['shopArticleId'] = $requestData['shopArticleId'];
+    isset($requestData['orderNumber']) && $params['orderNumber'] = $requestData['orderNumber'];
     $checkData = \Yandex\Kassa\HttpNotification\CheckOrderParams::createWithArray($params);
     $params['md5'] = $checkData->signWithPassword($app['kassa.config']['shopPassword']);
     return $params;
@@ -45,7 +46,7 @@ $makeAvisoData = function ($requestData) use ($app, $makeCheckData) {
     $params = $makeCheckData($requestData);
     $params['action'] = 'paymentAviso';
     $params['paymentDatetime'] = date('Y-m-d\\TH:i:sP');
-    $checkData = \Yandex\Kassa\HttpNotification\CheckOrderParams::createWithArray($params);
+    $checkData = \Yandex\Kassa\HttpNotification\PaymentAvisoParams::createWithArray($params);
     $params['md5'] = $checkData->signWithPassword($app['kassa.config']['shopPassword']);
     return $params;
 };

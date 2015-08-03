@@ -128,7 +128,7 @@ class CheckOrderParams implements \ArrayAccess
      */
     public static function createWithArray($params)
     {
-        return new self($params);
+        return new static($params);
     }
 
     /**
@@ -159,7 +159,7 @@ class CheckOrderParams implements \ArrayAccess
         ];
         $dataToHash = [];
         foreach ($paramKeys as $k) {
-            $dataToHash[] = isset($data[$k]) ? $data[$k] : '';
+            $dataToHash[] = isset($this->$k) ? $this->$k : '';
         }
         $dataToHash[] = $password;
         $stringToHash = implode(';', $dataToHash);
