@@ -59,7 +59,7 @@ $app->match('/eshop.xml', function (Request $request) use ($app, $makeCheckData,
     $requestData = $request->request->getIterator()->getArrayCopy();
     $checkData = $makeCheckData($requestData);
     $avisoData = $makeAvisoData($requestData);
-    return $app['twig']->render('shop.html.twig', [
+    return $app['twig']->render('eshop.html.twig', [
         'request' => $requestData,
         'checkData' => $checkData,
         'avisoData' => $avisoData,
