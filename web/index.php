@@ -55,7 +55,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/../views',
 ));
 
-$app->match('/embed/shop.xml', function (Request $request) use ($app, $makeCheckData, $makeAvisoData) {
+$app->match('/eshop.xml', function (Request $request) use ($app, $makeCheckData, $makeAvisoData) {
     $requestData = $request->request->getIterator()->getArrayCopy();
     $checkData = $makeCheckData($requestData);
     $avisoData = $makeAvisoData($requestData);

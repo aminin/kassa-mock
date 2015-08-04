@@ -8,7 +8,7 @@
     {% else %}
         <div class="alert alert-info" role="alert">
             <i class="glyphicon glyphicon-info-sign"></i>
-            Данные платёжной формы отправляйте на <i>{{ app.request.schemeAndHttpHost }}/embed/shop.xml</i>
+            Данные платёжной формы отправляйте на <i>{{ app.request.schemeAndHttpHost }}/eshop.xml</i>
         </div>
         <a href="{{ app['kassa.config'].successUrl }}" class="btn btn-success">Перейти в магазин</a>
     {% endif %}
