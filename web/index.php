@@ -73,8 +73,15 @@ $app->match('/notify/{what}', function ($what, Request $request) use ($app) {
     }
 
     $url = $app['kassa.config'][$what];
-
     $data = json_decode($data, true);
+
+    if ($request->get('update_md5')) {
+        $checkClass = $what == 'paymentAvisoUrl' ? 'PaymentAvisoParams' : 'CheckOrderParams';
+        $checkClass = sprintf('\Yandex\Kassa\HttpNotification\%s', $checkClass);
+        $checkData = $checkClass::createWithArray($data);
+        $data['md5'] = $checkData->signWithPassword($app['kassa.config']['shopPassword']);
+    }
+
     $context  = stream_context_create(['http' => [
         'method'  => 'POST',
         'header'  => 'Content-type: application/x-www-form-urlencoded; charset=utf-8',
