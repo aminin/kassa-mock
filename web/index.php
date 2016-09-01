@@ -51,18 +51,27 @@ $makeAvisoData = function ($requestData) use ($app, $makeCheckData) {
     return $params;
 };
 
+$makeSuccessData = function ($requestData) use ($app, $makeCheckData) {
+    $params = $makeCheckData($requestData);
+    $params['action'] = 'PaymentSuccess';
+    $params['paymentDatetime'] = date('Y-m-d\\TH:i:sP');
+    return $params;
+};
+
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/../views',
 ));
 
-$app->match('/eshop.xml', function (Request $request) use ($app, $makeCheckData, $makeAvisoData) {
+$app->match('/eshop.xml', function (Request $request) use ($app, $makeCheckData, $makeAvisoData, $makeSuccessData) {
     $requestData = $request->request->getIterator()->getArrayCopy();
     $checkData = $makeCheckData($requestData);
     $avisoData = $makeAvisoData($requestData);
+    $successData = $makeSuccessData($requestData);
     return $app['twig']->render('eshop.html.twig', [
         'request' => $requestData,
         'checkData' => $checkData,
         'avisoData' => $avisoData,
+        'successData' => $successData,
     ]);
 });
 

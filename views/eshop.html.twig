@@ -64,7 +64,7 @@
                     <textarea id="form-payment-aviso-response" class="form-control" rows="4"></textarea>
                 </div>
             </form>
-            <a href="{{ app['kassa.config'].successUrl }}" class="btn btn-success">Перейти на successUrl</a>
+            <a href="{{ app['kassa.config'].successUrl ~ '?' ~ (successData|url_encode) }}" class="btn btn-success">Перейти на successUrl</a>
             <a href="{{ app['kassa.config'].failUrl }}" class="btn btn-danger">Перейти на failUrl</a>
         </div>
     </div>
