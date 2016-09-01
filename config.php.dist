@@ -1,11 +1,11 @@
 <?php
 
 return [
-    'shopId'          => '',
-    'scid'            => '',
-    'shopPassword'    => '',
-    'paymentAvisoUrl' => '',
-    'checkOrderUrl'   => '',
-    'successUrl'      => '',
-    'failUrl'         => '',
+    'shopId'          => '111', // your shop id
+    'scid'            => '222', // your scid
+    'shopPassword'    => 'Your shop password',
+    'paymentAvisoUrl' => 'http://your-domain.dev:3456/your-kassa-url/payment-aviso',
+    'checkOrderUrl'   => 'http://your-domain.dev:3456/your-kassa-url/check-order',
+    'successUrl'      => 'http://your-domain.dev:3456/your-kassa-url/success',
+    'failUrl'         => 'http://your-domain.dev:3456/your-kassa-url/fail',
 ];
