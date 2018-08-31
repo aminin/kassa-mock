@@ -1,0 +1,78 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+<div class="col col-xs-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Информация о транзакции
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <tr><th>Сумма:</th><td>{{ request.sum }}</td></tr>
+                <tr><th>Метод платежа:</th><td>{{ request.paymentType }}</td></tr>
+            </table>
+            <div class="form-group">
+                <label>Данные</label>
+                {{ dump(app['request'].request) }}
+                <textarea class="form-control" rows="10">{{ request|json_encode(constant('JSON_PRETTY_PRINT')) }}</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col col-xs-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Отправка уведомления
+        </div>
+        <div class="panel-body">
+            <form id="form-notification">
+                <div class="form-group">
+                    <label for="#form-notification-data">Данные</label>
+                    <textarea class="form-control" name="data" id="form-notification-data" rows="10">{{ notificationData|json_encode(constant('JSON_PRETTY_PRINT')) }}</textarea>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="update_checksum" checked="checked"> Обновить подпись
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-warning">Отправить уведомление</button>
+                <div class="form-group">
+                    <label for="#form-notification-response">Ответ</label>
+                    <textarea id="form-notification-response" class="form-control" rows="4"></textarea>
+                </div>
+            </form>
+            <a href="{{ app['kassa.config'].successUrl }}" class="btn btn-success">Перейти на successUrl</a>
+            <a href="{{ app['kassa.config'].failUrl }}" class="btn btn-danger">Перейти на failUrl</a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    {% verbatim %}
+    (function (method) {
+        function defer(method) {
+            if (window.jQuery) {
+                method();
+            } else {
+                setTimeout(function () {
+                    defer(method)
+                }, 50);
+            }
+        }
+        defer(method);
+    })(function () {
+        var highlight = function (t, response) {
+            t.val(response);
+            t.removeClass('alert-danger');
+            t.removeClass('alert-success');
+            t.addClass(response.match(/code="0"/) ? 'alert-success' : 'alert-danger');
+        };
+        $('#form-notification').on('submit', function (e) {
+            $.post('/notify/notificationUrl', $('#form-notification').serialize(), function (response) {
+                highlight($('#form-notification-response'), response);
+            });
+            return false;
+        });
+    });
+    {% endverbatim %}
+</script>
+{% endblock %}

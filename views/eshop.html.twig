@@ -32,7 +32,7 @@
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="update_md5" checked="checked"> Обновить подпись md5
+                        <input type="checkbox" name="update_checksum" checked="checked"> Обновить подпись
                     </label>
                 </div>
                 <button type="submit" class="btn btn-primary">Отправить checkOrder</button>
@@ -51,11 +51,11 @@
             <form id="form-payment-aviso">
                 <div class="form-group">
                     <label for="form-payment-aviso-data">Данные</label>
-                    <textarea class="form-control" name="data" id="form-check-order-data" rows="10">{{ avisoData|json_encode(constant('JSON_PRETTY_PRINT')) }}</textarea>
+                    <textarea class="form-control" name="data" id="form-payment-aviso-data" rows="10">{{ avisoData|json_encode(constant('JSON_PRETTY_PRINT')) }}</textarea>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="update_md5" checked="checked"> Обновить подпись md5
+                        <input type="checkbox" name="update_checksum" checked="checked"> Обновить подпись
                     </label>
                 </div>
                 <button type="submit" class="btn btn-warning">Отправить paymentAviso</button>
