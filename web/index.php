@@ -112,9 +112,11 @@ $app->match('/eshop.xml', function (Request $request) use ($app, $makeCheckData,
 $app->match('/quickpay/confirm.xml', function (Request $request) use ($app, $makeNotificationData) {
     $requestData = $request->request->getIterator()->getArrayCopy();
     $notificationData = $makeNotificationData($requestData);
+    $successData = array_intersect_key($notificationData, array_flip(['label']));
     return $app['twig']->render('quickpayConfirm.html.twig', [
         'request' => $requestData,
         'notificationData' => $notificationData,
+        'successData' => $successData,
     ]);
 });
 
